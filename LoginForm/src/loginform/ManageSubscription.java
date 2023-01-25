@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package loginform;
+import com.raven.datechooser.SelectedDate;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -12,6 +13,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Date;
 
 //import java.time.LocalDate;
 import java.util.HashMap;
@@ -50,6 +54,7 @@ public class ManageSubscription extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooser1 = new com.raven.datechooser.DateChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -62,6 +67,10 @@ public class ManageSubscription extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStudents = new javax.swing.JTable();
+
+        dateChooser1.setForeground(new java.awt.Color(93, 143, 204));
+        dateChooser1.setDateFormat("yyyy-MM-dd");
+        dateChooser1.setTextRefernce(txtSubDate);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,6 +103,12 @@ public class ManageSubscription extends javax.swing.JFrame {
 
         errorlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         errorlabel.setForeground(new java.awt.Color(255, 0, 0));
+
+        txtSubDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSubDateActionPerformed(evt);
+            }
+        });
 
         btnSave.setText("Subscribe");
         btnSave.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -138,30 +153,32 @@ public class ManageSubscription extends javax.swing.JFrame {
                         .addGap(136, 136, 136)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(290, 290, 290)
-                                        .addComponent(errorlabel, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(9, 9, 9)))
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(9, 9, 9)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(24, 24, 24)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtnum_share, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                                            .addComponent(txtSubDate)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtnum_share)
-                                            .addComponent(txtshare_id)
-                                            .addComponent(txtSubDate, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))))
+                                        .addComponent(txtshare_id, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(61, 61, 61))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(105, 105, 105)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(81, 81, 81)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 271, Short.MAX_VALUE)
+                                .addComponent(errorlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -217,9 +234,15 @@ public class ManageSubscription extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+           //SelectedDate d = new SelectedDate();
            int num_share = Integer.parseInt(txtnum_share.getText());
            String num = txtnum_share.getText().trim();
            int share_id = Integer.parseInt(txtshare_id.getText());
+           String sub_date = txtSubDate.getText();
+           LocalDateTime now = LocalDateTime.now();
+           Timestamp date = Timestamp.valueOf(sub_date);
+           //pr.setTimestamp(2,  sqlNow);
+           
            //number2 = Integer.parseInt(inputField2.getText());
         //String password = txtPassword.getText().trim();
 
@@ -232,7 +255,7 @@ public class ManageSubscription extends javax.swing.JFrame {
                 ResultSet rs = st.executeQuery(sql);
                 if (rs.first()) {
                     
-                    saveSubscription(num_share, share_id);
+                    saveSubscription(num_share, share_id,date);
                     DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
                     Object[] row = new Object[4];
                     row[0] = share_id;
@@ -301,6 +324,10 @@ public class ManageSubscription extends javax.swing.JFrame {
         //        txtId.setText(model.getValueAt(i, 2).toString());
     }//GEN-LAST:event_tblStudentsMouseClicked
 
+    private void txtSubDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSubDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSubDateActionPerformed
+
      private void clear() {
         txtnum_share.setText("");
         txtSubDate.setText("");
@@ -317,12 +344,12 @@ public class ManageSubscription extends javax.swing.JFrame {
     }
     
     //method to save user to the db
-    public void saveSubscription(int num_share, int share_id) {
+    public void saveSubscription(int num_share, int share_id,Timestamp date) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
-            String sql = "INSERT INTO `subscription`(`share_id`, `num_share`) "
-                    + "VALUES ('" + share_id + "','" + num_share + "')";
+            String sql = "INSERT INTO `subscription`(`share_id`, `num_share`,`sub_date`) "
+                    + "VALUES ('" + share_id + "','" + num_share + "','" + date + "')";
             st = con.createStatement();
             st.execute(sql);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -368,6 +395,7 @@ public class ManageSubscription extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
+    private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel errorlabel;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
