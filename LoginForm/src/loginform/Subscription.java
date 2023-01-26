@@ -6,11 +6,11 @@ package loginform;
  */
 public class Subscription {
     int share_id,num_share;
-    //int id;
-    public Subscription(int share_id,int num_share){
+    String sub_date;
+    public Subscription(int share_id,int num_share,String sub_date){
         this.share_id = share_id;
         this.num_share = num_share;
-        
+        this.sub_date = sub_date;
     }
     
     //getters
@@ -20,9 +20,9 @@ public class Subscription {
     public int getNumshare(){
         return this.num_share;
     }
-//    public String getAddress(){
-//        return this.address;
-//    }
+    public String getSubDate(){
+        return this.sub_date;
+    }
 //    public int getId(){
 //        return this.id;
 //    }
