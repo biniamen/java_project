@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author biniyamk
  */
-public class ManageSubscription extends javax.swing.JFrame {
+public class ManagePayment extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageSubscription
@@ -33,7 +33,7 @@ public class ManageSubscription extends javax.swing.JFrame {
      Connection con;
      Statement st;
      ArrayList<Subscription> subscriptions = new ArrayList<>();
-    public ManageSubscription() {
+    public ManagePayment() {
         initComponents();
         //initComponents();
         BindCombo();
@@ -59,7 +59,7 @@ public class ManageSubscription extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtnum_share = new javax.swing.JTextField();
+        txt_paid_amount = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtshare_id = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -67,7 +67,7 @@ public class ManageSubscription extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStudents = new javax.swing.JTable();
-        subDate = new com.toedter.calendar.JDateChooser();
+        paid_date = new com.toedter.calendar.JDateChooser();
 
         dateChooser1.setForeground(new java.awt.Color(93, 143, 204));
         dateChooser1.setDateFormat("yyyy-MM-dd");
@@ -78,17 +78,17 @@ public class ManageSubscription extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 102, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Manage Subscription");
+        jLabel3.setText("Manage Payment");
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel1.setText("  Number of Share");
+        jLabel1.setText("Payment Amount");
 
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel2.setText("Subscribed Date");
+        jLabel2.setText("Payment Date");
 
-        txtnum_share.addActionListener(new java.awt.event.ActionListener() {
+        txt_paid_amount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtnum_shareActionPerformed(evt);
+                txt_paid_amountActionPerformed(evt);
             }
         });
 
@@ -110,7 +110,7 @@ public class ManageSubscription extends javax.swing.JFrame {
         errorlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         errorlabel.setForeground(new java.awt.Color(255, 0, 0));
 
-        btnSave.setText("Subscribe");
+        btnSave.setText("Pay");
         btnSave.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnSave.setIconTextGap(0);
         btnSave.setInheritsPopupMenu(true);
@@ -125,7 +125,7 @@ public class ManageSubscription extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Share ID", "Number of Share", "Subscribed Date"
+                "Share ID", "Amount Paid", "Paid Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -172,8 +172,8 @@ public class ManageSubscription extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(24, 24, 24)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtnum_share, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(subDate, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txt_paid_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(paid_date, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(61, 61, 61))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(81, 81, 81)
@@ -194,11 +194,11 @@ public class ManageSubscription extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtnum_share, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_paid_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(subDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(paid_date, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtshare_id, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,12 +217,12 @@ public class ManageSubscription extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtnum_shareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnum_shareActionPerformed
+    private void txt_paid_amountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_paid_amountActionPerformed
         // TODO add your handling code here:
         
        
             
-    }//GEN-LAST:event_txtnum_shareActionPerformed
+    }//GEN-LAST:event_txt_paid_amountActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
@@ -236,13 +236,13 @@ public class ManageSubscription extends javax.swing.JFrame {
         
         // TODO add your handling code here:
            //SelectedDate d = new SelectedDate();
-           int num_share = Integer.parseInt(txtnum_share.getText());
-           String num = txtnum_share.getText().trim();
+           double paid = Double.parseDouble(txt_paid_amount.getText());
+           String num = txt_paid_amount.getText().trim();
            int share_id = Integer.parseInt(txtshare_id.getText());
            //String sub_date = subDate.getDate();
-           String sub_date=""+subDate.getDate();
+           String sub_date=""+paid_date.getDate();
            SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd"); 
-           String sub_date2 = Date_Format.format(subDate.getDate());
+           String sub_date2 = Date_Format.format(paid_date.getDate());
            //LocalDateTime now = LocalDateTime.now();
            //Timestamp date = Timestamp.valueOf(sub_date);
            //pr.setTimestamp(2,  sqlNow);
@@ -259,11 +259,11 @@ public class ManageSubscription extends javax.swing.JFrame {
                 ResultSet rs = st.executeQuery(sql);
                 if (rs.first()) {
                     
-                    saveSubscription(num_share, share_id,sub_date2);
+                    //savePayment(share_id,paid,);
                     DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
                     Object[] row = new Object[4];
                     row[0] = share_id;
-                    row[1] = num_share;
+                    //row[1] = num_share;
                     row[2] = sub_date2;
                     //row[2] = address;
                     model.addRow(row);
@@ -335,7 +335,7 @@ public class ManageSubscription extends javax.swing.JFrame {
     }//GEN-LAST:event_txtshare_idActionPerformed
 
      private void clear() {
-        txtnum_share.setText("");
+        txt_paid_amount.setText("");
         //subDate.setD
         txtshare_id.setText("");
     }
@@ -350,7 +350,7 @@ public class ManageSubscription extends javax.swing.JFrame {
     }
     
     //method to save user to the db
-    public void saveSubscription(int num_share, int share_id,String date) {
+    public void savePayment(int share_id,double payment, double weighted, String paid_date) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
@@ -381,20 +381,21 @@ public class ManageSubscription extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageSubscription.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePayment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageSubscription.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePayment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageSubscription.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePayment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageSubscription.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePayment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageSubscription().setVisible(true);
+                new ManagePayment().setVisible(true);
             }
         });
     }
@@ -409,9 +410,9 @@ public class ManageSubscription extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.toedter.calendar.JDateChooser subDate;
+    private com.toedter.calendar.JDateChooser paid_date;
     private javax.swing.JTable tblStudents;
-    private javax.swing.JTextField txtnum_share;
+    private javax.swing.JTextField txt_paid_amount;
     private javax.swing.JTextField txtshare_id;
     // End of variables declaration//GEN-END:variables
 }
