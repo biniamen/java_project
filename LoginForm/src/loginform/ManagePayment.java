@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package loginform;
-import com.raven.datechooser.SelectedDate;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -17,10 +16,16 @@ import java.time.LocalDateTime;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-//import java.time.LocalDate;
+import java.util.concurrent.TimeUnit ;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Locale;
 /**
  *
  * @author biniyamk
@@ -239,13 +244,11 @@ public class ManagePayment extends javax.swing.JFrame {
            double paid = Double.parseDouble(txt_paid_amount.getText());
            String num = txt_paid_amount.getText().trim();
            int share_id = Integer.parseInt(txtshare_id.getText());
-           //String sub_date = subDate.getDate();
+           String status = "Pending";
            String sub_date=""+paid_date.getDate();
            SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd"); 
            String sub_date2 = Date_Format.format(paid_date.getDate());
-           //LocalDateTime now = LocalDateTime.now();
-           //Timestamp date = Timestamp.valueOf(sub_date);
-           //pr.setTimestamp(2,  sqlNow);
+           // for getting budget year
            
            //number2 = Integer.parseInt(inputField2.getText());
         //String password = txtPassword.getText().trim();
@@ -254,12 +257,25 @@ public class ManagePayment extends javax.swing.JFrame {
               try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
-                String sql = "select * from shareholders where id='" + share_id + "'";
+                String sql = "select * from budget_year";
                 st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 if (rs.first()) {
                     
-                    //savePayment(share_id,paid,);
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                    Date end_date = rs.getDate("end_date");
+                    Date PaidDate = paid_date.getDate();
+                        //Date ending_date = end_date.getDate();
+                    long diffInMillies = Math.abs(end_date.getTime() - PaidDate.getTime());
+                    long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                   
+                    //java.sql.Date end_date = rs.getDate("DOB");
+                    
+                    int num_days = rs.getInt("num_days"); 
+                    //double days = diff/num_days;
+                    //int difference = Conver
+                    double w = (diff/num_days);
+                    savePayment(share_id,paid,w*paid,end_date,status,num_days);
                     DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
                     Object[] row = new Object[4];
                     row[0] = share_id;
@@ -297,11 +313,11 @@ public class ManagePayment extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
-            String sql = "select * from subscription";
+            String sql = "select * from payment";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Subscription sub = new Subscription(rs.getInt("share_id"),rs.getInt("num_share"),rs.getString("sub_date"));
+                Subscription sub = new Subscription(rs.getInt("share_id_paid"),rs.getInt("amount_paid"),rs.getString("weighted_amount"));
                 subscriptions.add(sub);
             }
             DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
@@ -350,12 +366,12 @@ public class ManagePayment extends javax.swing.JFrame {
     }
     
     //method to save user to the db
-    public void savePayment(int share_id,double payment, double weighted, String paid_date) {
+    public void savePayment(int share_id,double payment, double w, Date paid_date, String status,int weight) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
-            String sql = "INSERT INTO `subscription`(`share_id`, `num_share`,`sub_date`) "
-                    + "VALUES ('" + share_id + "','" + num_share + "','" + date + "')";
+            String sql = "INSERT INTO `payment`(`share_id_paid`, `amount_paid`,`weighted_amount`,`payment_date`,`status`,`weight`) "
+                    + "VALUES ('" + share_id + "','" + payment + "','" + w + "','" + paid_date + "','" + status + "','" + weight + "')";
             st = con.createStatement();
             st.execute(sql);
         } catch (ClassNotFoundException | SQLException ex) {

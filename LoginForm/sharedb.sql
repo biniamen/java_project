@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 26, 2023 at 10:53 AM
+-- Generation Time: Jan 26, 2023 at 01:25 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `sharedb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `payment_id` int(11) NOT NULL,
+  `share_id_paid` int(11) NOT NULL,
+  `amount_paid` decimal(12,2) NOT NULL,
+  `weighted_amount` decimal(12,2) NOT NULL,
+  `payment_date` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -67,7 +82,10 @@ INSERT INTO `subscription` (`sub_id`, `share_id`, `num_share`, `sub_date`) VALUE
 (8, 2, 33, '2023-01-25'),
 (9, 1, 55, '2023-01-25'),
 (10, 1, 54, '2023-01-02'),
-(11, 2, 99, '2024-01-17');
+(11, 2, 99, '2024-01-17'),
+(12, 3, 63, '2023-01-06'),
+(13, 3, 77, '2023-01-20'),
+(14, 2, 120, '2025-01-16');
 
 -- --------------------------------------------------------
 
@@ -98,6 +116,12 @@ INSERT INTO `tbluser` (`id`, `username`, `password`, `role`) VALUES
 --
 
 --
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
 -- Indexes for table `shareholders`
 --
 ALTER TABLE `shareholders`
@@ -121,6 +145,12 @@ ALTER TABLE `tbluser`
 --
 
 --
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shareholders`
 --
 ALTER TABLE `shareholders`
@@ -130,7 +160,7 @@ ALTER TABLE `shareholders`
 -- AUTO_INCREMENT for table `subscription`
 --
 ALTER TABLE `subscription`
-  MODIFY `sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbluser`
