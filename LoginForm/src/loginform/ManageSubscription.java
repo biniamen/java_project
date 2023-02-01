@@ -73,6 +73,7 @@ public class ManageSubscription extends javax.swing.JFrame {
         dateChooser1.setDateFormat("yyyy-MM-dd");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Add Subscription");
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N

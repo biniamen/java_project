@@ -4,6 +4,16 @@
  */
 package loginform;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
 /**
  *
  * @author biniyamk
@@ -13,10 +23,66 @@ public class DahsboardPage extends javax.swing.JFrame {
     /**
      * Creates new form DahsboardPage
      */
+     Connection con;
+     Statement st;
+     ApprovedPayment ap;
     public DahsboardPage() {
+      setTitle("");
+      add(new JLabel("", SwingConstants.CENTER),                BorderLayout.CENTER);
+      //setSize(550, 450);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setLocationRelativeTo(null); // this method display the JFrame to center position of a screen
+      setVisible(true);
         initComponents();
+        //ManagePayment();
     }
-
+    
+    public double GetTotalPaid(int id) {
+        try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
+        String sql = "select SUM(amount_paid) as total from payment where `share_id_paid` = '" + id + "'";
+        st = con.createStatement();
+        //ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery(sql);
+                //ResultSet rs2 = st.executeQuery(sql2);
+                if (rs.first()) {
+                     double total_paid = rs.getInt("total");
+                     return total_paid;
+                }
+        
+       
+        }
+        catch(SQLException  | ClassNotFoundException ex) {
+                    Logger.getLogger(ManagePayment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0.0; 
+    }
+    // get total number of days
+   public int GetTotalDays(int id) {
+        try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
+        String sql = "select SUM(num_days) as totaldays from payment where `share_id_paid` = '" + id + "'";
+        st = con.createStatement();
+        //ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery(sql);
+                //ResultSet rs2 = st.executeQuery(sql2);
+                if (rs.first()) {
+                     int total_days = rs.getInt("total");
+                     return total_days;
+                }
+        
+       
+        }
+        catch(SQLException  | ClassNotFoundException ex) {
+                    Logger.getLogger(ManagePayment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0; 
+    }
+   
+   // get total payment existance
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,9 +94,18 @@ public class DahsboardPage extends javax.swing.JFrame {
 
         jLabel3 = new javax.swing.JLabel();
         btnUser = new javax.swing.JButton();
-        btnShareholder = new javax.swing.JButton();
+        btnCalDividend = new javax.swing.JButton();
+        btnShareholder1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Admin Dashboard");
+        setPreferredSize(new java.awt.Dimension(770, 337));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -47,12 +122,30 @@ public class DahsboardPage extends javax.swing.JFrame {
             }
         });
 
-        btnShareholder.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnShareholder.setForeground(new java.awt.Color(51, 51, 255));
-        btnShareholder.setText("Manage Shareholder");
-        btnShareholder.addActionListener(new java.awt.event.ActionListener() {
+        btnCalDividend.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnCalDividend.setForeground(new java.awt.Color(51, 51, 255));
+        btnCalDividend.setText("Calculate Dividend");
+        btnCalDividend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShareholderActionPerformed(evt);
+                btnCalDividendActionPerformed(evt);
+            }
+        });
+
+        btnShareholder1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnShareholder1.setForeground(new java.awt.Color(51, 51, 255));
+        btnShareholder1.setText("Manage Shareholder");
+        btnShareholder1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShareholder1ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(255, 102, 102));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Exit");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -63,22 +156,39 @@ public class DahsboardPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnShareholder))
-                .addGap(23, 23, 23)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCalDividend, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(204, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnShareholder1)
+                    .addContainerGap(647, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnShareholder, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 306, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(80, 80, 80)
+                .addComponent(btnCalDividend, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(82, 82, 82)
+                    .addComponent(btnShareholder1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(331, Short.MAX_VALUE)))
         );
 
         pack();
@@ -90,12 +200,59 @@ public class DahsboardPage extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
-    private void btnShareholderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShareholderActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-         new ManageShareholder().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnShareholderActionPerformed
+        for (double i = 0.0; i <=1.0; i = i+0.1){
+            String val = i+ "";
+            float f = Float.valueOf(val);
+            this.setOpacity(f);
+            try{
+                Thread.sleep(50);
+            }catch(Exception e){
+                
+            }
+        }
+    }//GEN-LAST:event_formWindowOpened
 
+    private void btnShareholder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShareholder1ActionPerformed
+        // TODO add your handling code here:
+        new ManageShareholder().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnShareholder1ActionPerformed
+
+    private void btnCalDividendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalDividendActionPerformed
+        // TODO add your handling code here:
+        new ApprovedPayment().setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_btnCalDividendActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void alert(String msg) {
+              JOptionPane.showMessageDialog(rootPane, msg);
+          }
+
+    public void Approve() {
+        double weighted = ap.TotalWeighted();
+        double profit = ap.GetProfit();
+        double ratio = (profit/weighted)*100;
+        
+        try {
+            //String new_status = "Approved";
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
+            String sql = "UPDATE `budget_year`SET dividend_ratio ='" + ratio + "'";
+             alert(weighted+"Please select a row to delete");
+            st = con.createStatement();
+            st.execute(sql);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ManageUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        fetch();
+    }
     /**
      * @param args the command line arguments
      */
@@ -132,8 +289,10 @@ public class DahsboardPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnShareholder;
+    private javax.swing.JButton btnCalDividend;
+    private javax.swing.JButton btnShareholder1;
     private javax.swing.JButton btnUser;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package loginform;
+import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -26,6 +27,9 @@ import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Locale;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 /**
  *
  * @author biniyamk
@@ -37,12 +41,18 @@ public class ManagePayment extends javax.swing.JFrame {
      */
      Connection con;
      Statement st;
-     ArrayList<Subscription> subscriptions = new ArrayList<>();
+     ArrayList<Payment> payments = new ArrayList<>();
     public ManagePayment() {
         initComponents();
         //initComponents();
         BindCombo();
         fetch();
+        setTitle("");
+      add(new JLabel("", SwingConstants.CENTER),                BorderLayout.CENTER);
+      //setSize(550, 450);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setLocationRelativeTo(null); // this method display the JFrame to center position of a screen
+      setVisible(true);
     }
     public void BindCombo(){
         MyQuery mq = new MyQuery();
@@ -50,6 +60,57 @@ public class ManagePayment extends javax.swing.JFrame {
         for(String s : map.keySet()){
             jComboBox1.addItem(s);
         }
+    }
+    //Getting Number of Share
+    public int GetSubscription(int id) {
+        try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
+        String sql = "select SUM(num_share) as TotalSub from subscription where `share_id` = '" + id + "'";
+        st = con.createStatement();
+        //ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery(sql);
+                //ResultSet rs2 = st.executeQuery(sql2);
+                if (rs.first()) {
+                     int num_of_share = rs.getInt("TotalSub");
+                     return num_of_share;
+                }
+        
+       
+        }
+        catch(SQLException  | ClassNotFoundException ex) {
+                    Logger.getLogger(ManageShareholder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0; 
+    }
+    
+    // get Shareholder total paid
+    public double GetTotalPaid(int id) {
+        try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
+        String sql = "select SUM(amount_paid) as total from payment where `share_id_paid` = '" + id + "'";
+        st = con.createStatement();
+        //ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery(sql);
+                //ResultSet rs2 = st.executeQuery(sql2);
+                if (rs.first()) {
+                     double total_paid = rs.getInt("total");
+                     return total_paid;
+                }
+        
+       
+        }
+        catch(SQLException  | ClassNotFoundException ex) {
+                    Logger.getLogger(ManagePayment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0.0; 
+    }
+    
+    // calculate weighted
+    public double CalculateWeighted(int num_days, int date_diff) {
+        double wet = date_diff/num_days;
+        return 0.0; 
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,11 +134,13 @@ public class ManagePayment extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStudents = new javax.swing.JTable();
         paid_date = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
 
         dateChooser1.setForeground(new java.awt.Color(93, 143, 204));
         dateChooser1.setDateFormat("yyyy-MM-dd");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Payment Form");
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -148,6 +211,15 @@ public class ManagePayment extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblStudents);
 
+        jButton1.setBackground(new java.awt.Color(102, 102, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Back to Dashboard");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,13 +258,15 @@ public class ManagePayment extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
                                 .addComponent(errorlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,9 +285,9 @@ public class ManagePayment extends javax.swing.JFrame {
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(errorlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 36, Short.MAX_VALUE))
+                        .addGap(16, 20, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -248,7 +322,11 @@ public class ManagePayment extends javax.swing.JFrame {
            String sub_date=""+paid_date.getDate();
            SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd"); 
            String sub_date2 = Date_Format.format(paid_date.getDate());
+           double total_paid = GetTotalPaid(share_id);
            // for getting budget year
+           int share_value = GetSubscription(share_id);
+           double share_toal= (double)share_value*1000;
+           double remaining = share_toal - total_paid;
            
            //number2 = Integer.parseInt(inputField2.getText());
         //String password = txtPassword.getText().trim();
@@ -260,8 +338,16 @@ public class ManagePayment extends javax.swing.JFrame {
                 String sql = "select * from budget_year";
                 st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
+                //ResultSet rs2 = st.executeQuery(sql2);
                 if (rs.first()) {
                     
+                  if(paid>remaining) {
+                    alert("Unable to Morethan Remaining Amount", "Shareholder Created");
+                     new ManagePayment().setVisible(true);
+                     //clear();
+                     this.dispose();
+                  } 
+                    else {
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
                     Date end_date = rs.getDate("end_date");
                     Date PaidDate = paid_date.getDate();
@@ -271,19 +357,27 @@ public class ManagePayment extends javax.swing.JFrame {
                    
                     //java.sql.Date end_date = rs.getDate("DOB");
                     
-                    int num_days = rs.getInt("num_days"); 
-                    //double days = diff/num_days;
-                    //int difference = Conver
-                    double w = (diff/num_days);
-                    savePayment(share_id,paid,w*paid,end_date,status,num_days);
+                    double num_days = rs.getInt("num_days"); 
+                    double days_stay = (double)diff;
+                    int d = (int)diff;
+
+                    
+                    double w = (days_stay/num_days)*paid;
+                    //int difference = Integer.parseInt(num_days);
+                    savePayment(share_id,paid,w,sub_date2,status,d);
                     DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
                     Object[] row = new Object[4];
                     row[0] = share_id;
-                    //row[1] = num_share;
+                    row[1] = paid;
                     row[2] = sub_date2;
                     //row[2] = address;
                     model.addRow(row);
-                    alert("Subscription Succefully Created", "Shareholder Created");
+                    alert("Succefully Paid", "Shareholder Created");
+                    new ManagePayment().setVisible(true);
+                    this.dispose();
+                    }
+                    
+                    
                 } else {
                     alert("Please provide a different shareholder Name", "Similar Shareholder Name");
                 }
@@ -309,7 +403,7 @@ public class ManagePayment extends javax.swing.JFrame {
 
     //fetch 
     private void fetch() {
-            subscriptions.clear();
+            payments.clear();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
@@ -317,16 +411,16 @@ public class ManagePayment extends javax.swing.JFrame {
             st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Subscription sub = new Subscription(rs.getInt("share_id_paid"),rs.getInt("amount_paid"),rs.getString("weighted_amount"));
-                subscriptions.add(sub);
+                Payment pay = new Payment(rs.getInt("share_id_paid"),rs.getDouble("amount_paid"),rs.getDouble("weighted_amount"),rs.getString("payment_date"),rs.getString("status"),rs.getInt("payment_date"));
+                payments.add(pay);
             }
             DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
-            for (Subscription subs : subscriptions) {
+            for (Payment pays : payments) {
 
                 Object[] row = new Object[4];
-                row[0] = subs.getShareid();
-                row[1] = subs.getNumshare();
-                row[2] = subs.getSubDate();
+                row[0] = pays.getShareid();
+                row[1] = pays.getPayment();
+                row[2] = pays.getPayDate();
                 //row[2] = share.getAddress();
 
                 model.addRow(row);
@@ -350,8 +444,16 @@ public class ManagePayment extends javax.swing.JFrame {
         txtshare_id.setVisible(false);
     }//GEN-LAST:event_txtshare_idActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //System.exit(0);
+        new MakerPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
      private void clear() {
         txt_paid_amount.setText("");
+        paid_date.setDateFormatString("");
         //subDate.setD
         txtshare_id.setText("");
     }
@@ -366,11 +468,11 @@ public class ManagePayment extends javax.swing.JFrame {
     }
     
     //method to save user to the db
-    public void savePayment(int share_id,double payment, double w, Date paid_date, String status,int weight) {
+    public void savePayment(int share_id,double payment, double w, String paid_date, String status,int weight) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
-            String sql = "INSERT INTO `payment`(`share_id_paid`, `amount_paid`,`weighted_amount`,`payment_date`,`status`,`weight`) "
+            String sql = "INSERT INTO `payment`(`share_id_paid`, `amount_paid`,`weighted_amount`,`payment_date`,`status`,`num_days`) "
                     + "VALUES ('" + share_id + "','" + payment + "','" + w + "','" + paid_date + "','" + status + "','" + weight + "')";
             st = con.createStatement();
             st.execute(sql);
@@ -420,6 +522,7 @@ public class ManagePayment extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel errorlabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

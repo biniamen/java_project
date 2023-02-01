@@ -10,9 +10,9 @@ public class Payment {
     int share_id,weight;
     double payment,weighted;
     String status;
-    Date paid_date;
+    String paid_date;
     
-    public Payment(int share_id,double payment, double weighted, Date paid_date,String status,int weight){
+    public Payment(int share_id,double payment, double weighted, String paid_date,String status,int weight){
         this.share_id = share_id;
         this.payment = payment;
         this.weighted = weighted;
@@ -31,7 +31,7 @@ public class Payment {
      public double getWeighted(){
         return this.weighted;
     }
-    public Date getPayDate(){
+    public String getPayDate(){
         return this.paid_date;
     }
     public String getStatus(){

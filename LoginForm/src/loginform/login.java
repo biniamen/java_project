@@ -55,10 +55,7 @@ public class login extends javax.swing.JFrame {
         disable = new javax.swing.JLabel();
         show = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jLabel11 = new javax.swing.JLabel();
         btn_login = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -72,11 +69,11 @@ public class login extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(25, 118, 211));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Share Management System");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 500, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 345, 500, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/bg-login.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 35, 500, 340));
@@ -178,13 +175,6 @@ public class login extends javax.swing.JFrame {
         jCheckBox1.setText("Remember Password");
         jPanel2.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 261, -1, -1));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(199, 226, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Forget Password?");
-        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 261, 121, 27));
-
         btn_login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_login.setForeground(new java.awt.Color(25, 118, 211));
         btn_login.setText("LOGIN");
@@ -195,18 +185,6 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btn_login, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 306, 341, 40));
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Sign Up");
-        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 357, 122, -1));
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(199, 226, 255));
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel14.setText("Don't have an account?");
-        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 357, 213, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 420, 440));
 
@@ -277,13 +255,19 @@ public class login extends javax.swing.JFrame {
               if (role.equalsIgnoreCase("admin"))
               {
                 JOptionPane.showMessageDialog(null, "Admin Login Successfull", "Login Success", 1);
-                new ManagePayment().setVisible(true);
+                new DahsboardPage().setVisible(true);
                 this.dispose();
               }
              else if (role.equalsIgnoreCase("maker"))
               {
                 JOptionPane.showMessageDialog(null, "Maker Login Successfull", "Login Success", 1);
                 new MakerPage().setVisible(true);
+                this.dispose();
+              }
+               else if (role.equalsIgnoreCase("checker"))
+              {
+                JOptionPane.showMessageDialog(null, "Checker Login Successfull", "Login Success", 1);
+                new CheckerPage().setVisible(true);
                 this.dispose();
               }
                 
@@ -339,10 +323,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel disable;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

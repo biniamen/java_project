@@ -4,6 +4,11 @@
  */
 package loginform;
 
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author biniyamk
@@ -15,6 +20,12 @@ public class MakerPage extends javax.swing.JFrame {
      */
     public MakerPage() {
         initComponents();
+        setTitle("");
+      add(new JLabel("", SwingConstants.CENTER),                BorderLayout.CENTER);
+      //setSize(550, 450);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setLocationRelativeTo(null); // this method display the JFrame to center position of a screen
+      setVisible(true);
     }
 
     /**
@@ -28,9 +39,9 @@ public class MakerPage extends javax.swing.JFrame {
 
         jLabel3 = new javax.swing.JLabel();
         btnshareholder = new javax.swing.JButton();
-        btnshareholder1 = new javax.swing.JButton();
-        btnshareholder2 = new javax.swing.JButton();
-        btnshareholder3 = new javax.swing.JButton();
+        btnPayment = new javax.swing.JButton();
+        btnSubscription = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,33 +60,32 @@ public class MakerPage extends javax.swing.JFrame {
             }
         });
 
-        btnshareholder1.setBackground(new java.awt.Color(0, 204, 153));
-        btnshareholder1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnshareholder1.setText("Add Payment");
-        btnshareholder1.setToolTipText("");
-        btnshareholder1.addActionListener(new java.awt.event.ActionListener() {
+        btnPayment.setBackground(new java.awt.Color(0, 204, 153));
+        btnPayment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPayment.setText("Add Payment");
+        btnPayment.setToolTipText("");
+        btnPayment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnshareholder1ActionPerformed(evt);
+                btnPaymentActionPerformed(evt);
             }
         });
 
-        btnshareholder2.setBackground(new java.awt.Color(51, 51, 255));
-        btnshareholder2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnshareholder2.setText("Transfer Share");
-        btnshareholder2.setToolTipText("");
-        btnshareholder2.addActionListener(new java.awt.event.ActionListener() {
+        btnSubscription.setBackground(new java.awt.Color(204, 255, 204));
+        btnSubscription.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSubscription.setText("Add Subscription");
+        btnSubscription.setToolTipText("");
+        btnSubscription.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnshareholder2ActionPerformed(evt);
+                btnSubscriptionActionPerformed(evt);
             }
         });
 
-        btnshareholder3.setBackground(new java.awt.Color(204, 255, 204));
-        btnshareholder3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnshareholder3.setText("Add Subscription");
-        btnshareholder3.setToolTipText("");
-        btnshareholder3.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setBackground(new java.awt.Color(255, 102, 102));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setText("Exit");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnshareholder3ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
         setJMenuBar(jMenuBar1);
@@ -94,14 +104,15 @@ public class MakerPage extends javax.swing.JFrame {
                         .addComponent(btnshareholder, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnshareholder2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnshareholder1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnshareholder3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSubscription, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(200, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,12 +121,12 @@ public class MakerPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnshareholder, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnshareholder3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSubscription, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnshareholder1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnshareholder2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 94, Short.MAX_VALUE))
+                .addComponent(btnPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -127,17 +138,22 @@ public class MakerPage extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_btnshareholderActionPerformed
 
-    private void btnshareholder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshareholder1ActionPerformed
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnshareholder1ActionPerformed
+        new ManagePayment().setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnPaymentActionPerformed
 
-    private void btnshareholder2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshareholder2ActionPerformed
+    private void btnSubscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubscriptionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnshareholder2ActionPerformed
+        new ManageSubscription().setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnSubscriptionActionPerformed
 
-    private void btnshareholder3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshareholder3ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnshareholder3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,10 +191,10 @@ public class MakerPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPayment;
+    private javax.swing.JButton btnSubscription;
     private javax.swing.JButton btnshareholder;
-    private javax.swing.JButton btnshareholder1;
-    private javax.swing.JButton btnshareholder2;
-    private javax.swing.JButton btnshareholder3;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
