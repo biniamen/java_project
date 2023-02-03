@@ -35,17 +35,26 @@ public class PendingPayment extends javax.swing.JFrame {
     public PendingPayment() {
         initComponents();
         fetch();
-        setTitle("");
+        setTitle("Pending Payments");
       add(new JLabel("", SwingConstants.CENTER),                BorderLayout.CENTER);
       //setSize(550, 450);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setLocationRelativeTo(null); // this method display the JFrame to center position of a screen
       setVisible(true);
     }
-   
+    //set the values of a row to the textfields
+//    private void tblStudentsMouseClicked(java.awt.event.MouseEvent evt) {                                         
+//        // TODO add your handling code here:
+//        int i = tblStudents.getSelectedRow();
+//        TableModel model = tblStudents.getModel();
+//        txtUname.setText(model.getValueAt(i, 1).toString());
+//        txtRole.setText(model.getValueAt(i, 2).toString());
+//        //txt.setText(model.getValueAt(i, 2).toString());
+//    }                                        
+
     
     private void fetch() {
-            //subscriptions.clear();
+            payments.clear();
         try {
             String stat = "Pending";
             Class.forName("com.mysql.jdbc.Driver");
@@ -60,11 +69,11 @@ public class PendingPayment extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
             for (Payment pay : payments) {
 
-                Object[] row = new Object[4];
+                Object[] row = new Object[5];
                 row[0] = pay.getShareid();
                 row[1] = pay.getPayment();
                 row[2] = pay.getPayDate();
-                row[2] = pay.getStatus();
+                row[3] = pay.getStatus();
                 //row[2] = this.add( new JButton("+"));
 
                 model.addRow(row);
@@ -80,7 +89,7 @@ public class PendingPayment extends javax.swing.JFrame {
         int i = tblStudents.getSelectedRow();
         if (i >= 0) {
             int option = JOptionPane.showConfirmDialog(rootPane,
-                    "Are you sure you want to Approve Payment?", "Delete confirmation", JOptionPane.YES_NO_OPTION);
+                    "Are you sure you want to Approve Payment?", "Approval confirmation", JOptionPane.YES_NO_OPTION);
             if (option == 0) {
                 TableModel model = tblStudents.getModel();
 
@@ -95,16 +104,16 @@ public class PendingPayment extends javax.swing.JFrame {
                 }
             }
         } else {
-            alert("Please select a row to delete");
+            alert("Please select payment to Approve");
         }
     }  
-     //delete details in the db
+     //Approve payment in the db
     public void Approve(int id) {
         try {
             String new_status = "Approved";
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sharedb", "root", "");
-            String sql = "UPDATE `payment`SET status='" + new_status + "' WHERE payment_id='" + id + "'";
+            String sql = "UPDATE `payment`SET status='" + new_status + "' WHERE share_id_paid='" + id + "'";
             st = con.createStatement();
             st.execute(sql);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -129,6 +138,7 @@ public class PendingPayment extends javax.swing.JFrame {
         tblStudents = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         btnApprove = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pending Payments");
@@ -157,15 +167,26 @@ public class PendingPayment extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblStudents);
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 102, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Pending Paymet");
 
+        btnApprove.setBackground(new java.awt.Color(102, 255, 102));
+        btnApprove.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnApprove.setText("Approve");
         btnApprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApproveActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(102, 102, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Back to Dashboard");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -179,20 +200,22 @@ public class PendingPayment extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnApprove))
+                        .addComponent(btnApprove, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(86, Short.MAX_VALUE))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -218,7 +241,7 @@ public class PendingPayment extends javax.swing.JFrame {
         int i = tblStudents.getSelectedRow();
         if (i >= 0) {
             int option = JOptionPane.showConfirmDialog(rootPane,
-                    "Are you sure you want to Approve Payment?", "Delete confirmation", JOptionPane.YES_NO_OPTION);
+                    "Are you sure you want to Approve Payment?", "Approval confirmation", JOptionPane.YES_NO_OPTION);
             if (option == 0) {
                 TableModel model = tblStudents.getModel();
 
@@ -229,6 +252,8 @@ public class PendingPayment extends javax.swing.JFrame {
                     alert("Payment Approved Succeffully");
                     DefaultTableModel model1 = (DefaultTableModel) tblStudents.getModel();
                     model1.setRowCount(0);
+                    new PendingPayment().setVisible(true);
+                    this.dispose();
                     //fetch();
                     //clear();
                 }
@@ -237,6 +262,13 @@ public class PendingPayment extends javax.swing.JFrame {
             alert("Please select a Payment to Approve");
         }
     }//GEN-LAST:event_btnApproveActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //System.exit(0);
+        new CheckerPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,6 +307,7 @@ public class PendingPayment extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApprove;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblStudents;

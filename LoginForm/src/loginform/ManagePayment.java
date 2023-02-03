@@ -41,6 +41,7 @@ public class ManagePayment extends javax.swing.JFrame {
      */
      Connection con;
      Statement st;
+     
      ArrayList<Payment> payments = new ArrayList<>();
     public ManagePayment() {
         initComponents();
@@ -338,8 +339,10 @@ public class ManagePayment extends javax.swing.JFrame {
                 String sql = "select * from budget_year";
                 st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
+                
                 //ResultSet rs2 = st.executeQuery(sql2);
                 if (rs.first()) {
+                  
                     
                   if(paid>remaining) {
                     alert("Unable to Morethan Remaining Amount", "Shareholder Created");
@@ -366,10 +369,10 @@ public class ManagePayment extends javax.swing.JFrame {
                     //int difference = Integer.parseInt(num_days);
                     savePayment(share_id,paid,w,sub_date2,status,d);
                     DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
-                    Object[] row = new Object[4];
-                    row[0] = share_id;
-                    row[1] = paid;
-                    row[2] = sub_date2;
+                    Object[] row = {share_id,paid,sub_date2};
+//                    row[0] = share_id;
+//                    row[1] = paid;
+//                    row[2] = sub_date2;
                     //row[2] = address;
                     model.addRow(row);
                     alert("Succefully Paid", "Shareholder Created");
@@ -403,6 +406,7 @@ public class ManagePayment extends javax.swing.JFrame {
 
     //fetch 
     private void fetch() {
+           
             payments.clear();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -467,7 +471,7 @@ public class ManagePayment extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, msg, title, JOptionPane.ERROR_MESSAGE);
     }
     
-    //method to save user to the db
+    //method to save payment
     public void savePayment(int share_id,double payment, double w, String paid_date, String status,int weight) {
         try {
             Class.forName("com.mysql.jdbc.Driver");

@@ -4,6 +4,7 @@
  */
 package loginform;
 import com.raven.datechooser.SelectedDate;
+import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -20,6 +21,9 @@ import java.util.Date;
 
 //import java.time.LocalDate;
 import java.util.HashMap;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -32,12 +36,19 @@ public class ManageSubscription extends javax.swing.JFrame {
      */
      Connection con;
      Statement st;
+     Validation valid;
      ArrayList<Subscription> subscriptions = new ArrayList<>();
     public ManageSubscription() {
         initComponents();
         //initComponents();
         BindCombo();
         fetch();
+        setTitle("");
+      add(new JLabel("", SwingConstants.CENTER),                BorderLayout.CENTER);
+      //setSize(550, 450);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setLocationRelativeTo(null); // this method display the JFrame to center position of a screen
+      setVisible(true);
     }
     public void BindCombo(){
         MyQuery mq = new MyQuery();
@@ -68,6 +79,7 @@ public class ManageSubscription extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStudents = new javax.swing.JTable();
         subDate = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
 
         dateChooser1.setForeground(new java.awt.Color(93, 143, 204));
         dateChooser1.setDateFormat("yyyy-MM-dd");
@@ -144,6 +156,15 @@ public class ManageSubscription extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblStudents);
 
+        jButton1.setBackground(new java.awt.Color(102, 102, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Back to Dashboard");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -182,13 +203,17 @@ public class ManageSubscription extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
                                 .addComponent(errorlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,9 +232,9 @@ public class ManageSubscription extends javax.swing.JFrame {
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(errorlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 36, Short.MAX_VALUE))
+                        .addGap(16, 20, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -259,7 +284,14 @@ public class ManageSubscription extends javax.swing.JFrame {
                 st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 if (rs.first()) {
-                    
+//                    double totalpaid = valid.GetPaidAmount(share_id);
+//                    int totalsub = valid.GetTotalSubscription(share_id);
+//                    if(totalsub>totalpaid) {
+//                    alert("Complete Remaining Payment Before", "Shareholder Created");
+//                     new ManageSubscription().setVisible(true);
+//                     //clear();
+//                     this.dispose();
+//                  } 
                     saveSubscription(num_share, share_id,sub_date2);
                     DefaultTableModel model = (DefaultTableModel) tblStudents.getModel();
                     Object[] row = new Object[4];
@@ -335,6 +367,13 @@ public class ManageSubscription extends javax.swing.JFrame {
         txtshare_id.setVisible(false);
     }//GEN-LAST:event_txtshare_idActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //System.exit(0);
+        new MakerPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
      private void clear() {
         txtnum_share.setText("");
         //subDate.setD
@@ -350,7 +389,7 @@ public class ManageSubscription extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, msg, title, JOptionPane.ERROR_MESSAGE);
     }
     
-    //method to save user to the db
+    //method to save Subscription
     public void saveSubscription(int num_share, int share_id,String date) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -404,6 +443,7 @@ public class ManageSubscription extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private com.raven.datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel errorlabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

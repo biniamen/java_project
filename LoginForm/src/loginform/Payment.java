@@ -12,6 +12,7 @@ public class Payment {
     String status;
     String paid_date;
     
+    
     public Payment(int share_id,double payment, double weighted, String paid_date,String status,int weight){
         this.share_id = share_id;
         this.payment = payment;

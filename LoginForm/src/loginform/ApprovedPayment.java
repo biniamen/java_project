@@ -406,7 +406,7 @@ public class ApprovedPayment extends javax.swing.JFrame {
                     alert("Divendend Disbursed Succeffully");
                     DefaultTableModel model1 = (DefaultTableModel) tblStudents.getModel();
                     model1.setRowCount(0);
-                    //fetch();
+                    fetch();
                     //clear();
                 }
             }

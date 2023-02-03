@@ -255,7 +255,7 @@ public class login extends javax.swing.JFrame {
               if (role.equalsIgnoreCase("admin"))
               {
                 JOptionPane.showMessageDialog(null, "Admin Login Successfull", "Login Success", 1);
-                new DahsboardPage().setVisible(true);
+                new ShareholderDividend().setVisible(true);
                 this.dispose();
               }
              else if (role.equalsIgnoreCase("maker"))
